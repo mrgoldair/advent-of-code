@@ -16,17 +16,19 @@ const parseFn =
 // model => amount => model
 const down =
   (model,value) => {
-    return { ...model, vertical: model.vertical + value }
+    return { ...model, aim: model.aim + value }
   }
 
 const up =
   (model,value) => {
-    return { ...model, vertical: model.vertical - value }
+    return { ...model, aim: model.aim - value }
   }
 
 const forward =
   (model,value) => {
-    return { ...model, horizontal: model.horizontal + value }
+    return { ...model, 
+             horizontal: model.horizontal + value,
+             vertical: model.vertical + (model.aim * value) }
   }
 
 const add = (val,to) => from + val
@@ -47,7 +49,8 @@ let { horizontal, vertical } =
       }
     }, {
       vertical: 0,
-      horizontal: 0
+      horizontal: 0,
+      aim: 0
     })
 
 console.log( horizontal * vertical );
