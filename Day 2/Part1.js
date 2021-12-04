@@ -13,14 +13,20 @@ const parseFn =
     return [ dir, Number(amount) ]
   }
 
-
-
-const sub = (value,from) => from - value
-
 // model => amount => model
 const down =
   (model,value) => {
     return { ...model, vertical: model.vertical + value }
+  }
+
+const up =
+  (model,value) => {
+    return { ...model, vertical: model.vertical - value }
+  }
+
+const forward =
+  (model,value) => {
+    return { ...model, horizontal: model.horizontal + value }
   }
 
 const add = (val,to) => from + val
@@ -33,11 +39,11 @@ let { horizontal, vertical } =
     .reduce((model, [ dir, value ]) => {
       switch (dir) {
         case "forward":
-          return { ...model, horizontal: model.horizontal + value };
+          return forward(model,value);
         case "up":
-          return { ...model, vertical: model.vertical - value }
+          return up(model,value);
         case "down":
-          return down(model,value)
+          return down(model,value);
       }
     }, {
       vertical: 0,
