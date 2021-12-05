@@ -1,7 +1,7 @@
 let { loadData } = require('../Data.js');
 
 // string[]
-let data = loadData('./Day 2/Data.txt');
+let data = loadData('./Day 3/Data.txt');
 
 // regex => str => [ str, number ]
 const parseFn =
