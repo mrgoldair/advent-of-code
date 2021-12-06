@@ -1,4 +1,4 @@
-const Fn = require('../Fn');
+const Fn = require('./Fn.js');
 
 function sum(addends){
   return addends.reduce((acc,curr) => {
@@ -18,9 +18,26 @@ const map = Fn.curry((fn, xs) => xs.map(fn))
 
 const reduce = Fn.curry((fn, init, xs) => xs.reduce(fn,init))
 
+// Return nth entry of array-like
+const nth =
+  Fn.curry((nth, str) => str[nth])
+
+const first =
+  xs => nth(0,xs)
+
+const conj =
+  (item, xs) => {
+    let copy = xs.slice()
+    copy.push(item)
+    return copy
+  }
+
 module.exports = {
   sum,
   map,
   reduce,
-  slidingOf
+  slidingOf,
+  nth,
+  first,
+  conj
 }
