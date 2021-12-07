@@ -1,12 +1,10 @@
 const fs = require('fs');
 
 // string -> string[]
-function loadData(file){
-  let data = fs.readFileSync(file, { encoding:'utf8', flag:'r' })
-
-  return data.split('\n')
+function load(file, split='\n'){
+  return fs.readFileSync(file, { encoding:'utf8', flag:'r' }).split(split)
 }
 
 module.exports = {
-  loadData
+  load
 }

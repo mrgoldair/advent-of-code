@@ -1,4 +1,30 @@
 let { conj } = require('./List.js')
+let { curry } = require('./Fn.js')
+
+const everyNth =
+  curry((nth, start, xs) => {
+    // Prepare
+    let res = [];
+    // Fill
+    for (let i = start;i <= xs.length;i += nth){
+      res = conj(xs[i], res)
+    }
+    // Return
+    return res.filter(n => n);
+  })
+
+// Gathers `xs` into groups of `n`
+const groupsOf =
+  curry((n,xs) => {
+    // Prepare
+    let res = [];
+    // Fill
+    for (let i = 0;i <= xs.length;i += n){
+      res = conj(xs.slice(i,i + n), res)
+    }
+    // Return
+    return res.filter(xs => xs.length != 0);
+  })
 
 // Turns a sequence `xs` into a hash-map where keys are determined by `fn`
 const groupBy =
@@ -41,5 +67,7 @@ const largest =
 module.exports = {
   smallest,
   largest,
-  groupBy
+  groupBy,
+  groupsOf,
+  everyNth
 }

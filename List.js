@@ -16,6 +16,8 @@ const slidingOf = Fn.curry((size, xs) => {
 
 const map = Fn.curry((fn, xs) => xs.map(fn))
 
+const filter = Fn.curry((fn, xs) => xs.filter(fn))
+
 const reduce = Fn.curry((fn, init, xs) => xs.reduce(fn,init))
 
 // Return nth entry of array-like
@@ -23,7 +25,12 @@ const nth =
   Fn.curry((nth, str) => str[nth])
 
 const first =
-  xs => nth(0,xs)
+  xs =>
+    nth(0,xs)
+
+const empty =
+  xs =>
+    xs.length == 0
 
 const conj =
   (item, xs) => {
@@ -35,9 +42,11 @@ const conj =
 module.exports = {
   sum,
   map,
+  filter,
   reduce,
   slidingOf,
   nth,
   first,
-  conj
+  conj,
+  empty
 }
