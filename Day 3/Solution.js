@@ -4,18 +4,6 @@ let { curry } = require('../Fn.js');
 //string[]
 let data = loadData('./Day 3/Data.txt');
 
-// [a], [a], (a,a) => a
-const map2 =
-  curry((fn, a, b) => {
-    // Take the shortest so we don't get nulls
-    let limit = Math.min(a.length, b.length);
-    let r = [];
-    for (let i = 0;i < limit;i++){
-      r.push( fn(a[i],b[i]) )
-    }
-    return r;
-  })
-
 // (Tally, Tally) => Tally
 const sum =
   ([a0, a1],[b0, b1]) => [ (a0 + b0), (a1 + b1) ]

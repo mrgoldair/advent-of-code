@@ -4,12 +4,13 @@
  * @param fn - Function to curry
  * @returns - Curried function
  */
-const curry = (fn) => {
+const curry = fn => {
   // 
-  const curryFn = (gatheredArgs) => {
+  const curryFn = gatheredArgs => {
     return (...arguments) => {
       // Combine the args gathered so far with the current invocations args
-      let args = [ ...gatheredArgs, ...Array.from(arguments) ];
+      let args = [ ...gatheredArgs, ...arguments ];
+      //console.log(args)
       // If we have the full number (or more), call our function
       if (args.length >= fn.length)
         return fn.apply(null, args.slice(0, fn.length))

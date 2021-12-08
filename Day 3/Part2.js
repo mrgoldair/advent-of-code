@@ -35,6 +35,5 @@ const co2Gen =
 
 let o2 = o2Gen(0,data)
 let co2 = co2Gen(0,data)
-// console.log(o2)
-// console.log(co2)
+
 console.log(parseInt(o2,2) * parseInt(co2,2))

@@ -1,6 +1,6 @@
 let { load } = require('../Data.js');
 let { groupsOf, everyNth } = require('../Group.js');
-let { map, filter, empty, sum } = require('../List.js');
+let { map, map2, filter, empty, sum, first, last, conj } = require('../List.js');
 let { curry, compose } = require('../Fn.js');
 
 let draw = [
@@ -28,16 +28,6 @@ const mark =
                       : cell })
   })
 
-// Get entire row containing `cell`
-const row =
-  (board, { row }) =>
-    board.filter(cell => cell.row == row)
-
-// Get entire col containing `cell`
-const col =
-  (board, { col }) =>
-    board.filter(cell => cell.col == col)
-
 const rows =
   board =>
     groupsOf(5,board)
@@ -55,6 +45,19 @@ const check =
     cols(board).some(col => col.every(cell => cell.found))
       ? board : false;
 
+const ceq =
+  (c1, c2) => {
+    return ((c1.value === c2.value) &&
+            (c1.found === c2.found) &&
+            (c1.row == c2.row) &&
+            (c1.col == c2.col))
+  }
+
+const eq =
+  (board1, board2) => {
+    return map2(ceq, board1, board2).every(x => x)
+  }
+
 /**
  * Because bingo occurs only in rows or columns (not diagonals), and because marking a number (potentially - a board may not have a number) affects only a single column and row at a time, we don't have to test 5x5 solutions at once but 2x5 - the intersection of the row/col that the marked number occupies
  */
@@ -63,31 +66,29 @@ let boards =
     .map(g => g.map((value,c) => cell(Math.floor(c/5), c%5, value)))
 
 bingo =
-  (boards,[ n, ...rest ]) => {
+  (boards, [ n, ...rest ]) => {
 
-    // No boards won!
-    if (n == undefined) {
-      return boards
-    }
-
-    // Transition our boards state
-    let updated = map(mark(n),boards)
-
-    // Check for our exit condition - Bingo!
-    let [ board ] = map(check,updated).filter(x => x)
+    // Mark boards with the next number drawn
+    let marked = map(mark(n),boards)
   
-    if (board){
-      return [ board, n ];
-    }
+    // Find our completed boards
+    let complete = map(check,marked).filter(x => x)
 
-    return bingo(updated, rest)
+    // Remove completed boards from incomplete
+    let incomplete = marked.filter(m => {
+      return !complete.find(c => eq(m,c))
+    })
+
+    if ( complete && empty(incomplete) )
+      return [ first(complete), n ]
+
+    return bingo(incomplete, rest)
   }
 
-let [ board, n ] = bingo(boards,draw)
+let [ board, n ] = bingo(boards, draw)
 
 values = map(cell => cell.value)
 unmarked = filter(cell => !cell.found)
 
 let sumUnmarked = compose(compose(unmarked, values), sum)(board)
-
-console.log(sumUnmarked)
+console.log(sumUnmarked * n)

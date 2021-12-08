@@ -3,7 +3,7 @@ const Fn = require('./Fn.js');
 function sum(addends){
   return addends.reduce((acc,curr) => {
     return acc + curr
-  })
+  }, 0)
 }
 
 const slidingOf = Fn.curry((size, xs) => {
@@ -16,6 +16,17 @@ const slidingOf = Fn.curry((size, xs) => {
 
 const map = Fn.curry((fn, xs) => xs.map(fn))
 
+const map2 =
+  Fn.curry((fn, a, b) => {
+    // Take the shortest so we don't get nulls
+    let limit = Math.min(a.length, b.length);
+    let r = [];
+    for (let i = 0;i < limit;i++){
+      r.push( fn(a[i],b[i]) )
+    }
+    return r;
+  })
+
 const filter = Fn.curry((fn, xs) => xs.filter(fn))
 
 const reduce = Fn.curry((fn, init, xs) => xs.reduce(fn,init))
@@ -27,6 +38,10 @@ const nth =
 const first =
   xs =>
     nth(0,xs)
+
+const last =
+  xs =>
+    xs[xs.length - 1]
 
 const empty =
   xs =>
@@ -42,11 +57,13 @@ const conj =
 module.exports = {
   sum,
   map,
+  map2,
   filter,
   reduce,
   slidingOf,
   nth,
   first,
+  last,
   conj,
   empty
 }
