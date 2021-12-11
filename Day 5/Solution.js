@@ -81,8 +81,6 @@ const tally =
     },index)
   }
 
-// Remove the diagonals
-lines = lines.filter(l => !diagonal(l))
 // Point[][]
 let walks = map(walk,lines)
 // walks.
